@@ -54,7 +54,11 @@ File name should be `.travis.yml` (not yaml)
 
 - Deliver docker image with non reg (remove input volume mapping)
 - We could send report by email, this is possible by tweaking dockerfile or push report to a jfrog (remove output volume mapping)
+
+## TODO
+
 - Deliver in dockerhub
+- https://stackoverflow.com/questions/16090869/how-to-pretty-print-xml-from-the-command-line
 
 ## Note
 
