@@ -1,0 +1,24 @@
+version: "3.6"
+services:
+  non-regression:
+    image: scoulomb/soapui-docker
+    # This provides to soapui test runner, the command to run 
+    # "/test_results" is the folder which contains the results
+    # "/project_file/REST-Project-1-soapui-project.xml" is the SoapUI input file
+    command: ["-M", "-f", "/test_results", "/project_file/REST-Project-1-soapui-project.xml"]
+    volumes:
+      # This folder will contain XML soapui-project input file, it maps the volume to share file between os and container
+      - ./project_file:/project_file
+      # This folder will contain test results output, it maps the volume to share file between os and container
+      - ./test_results:/test_results
+  cat-report:
+    image: busybox
+    depends_on:
+      - non-regression
+    # This provides to soapui test runner, the command to run 
+    # "/test_results" is the folder which contains the results
+    # "/project_file/REST-Project-1-soapui-project.xml" is the SoapUI input file
+    command: ["cat", "./test_results/test_case_run_log_report.xml"]
+    volumes:
+      # This folder will contain XML soapui-project input file, it maps the volume to share file between os and container
+      - ./test_results:/test_results
