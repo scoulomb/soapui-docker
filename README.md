@@ -5,10 +5,14 @@
 A Docker image to run Soap UI non-regression. 
 
 To be used as an alternative of SoapUI official docker image which requires Soap UI Pro floating licence:
-https://github.com/SmartBear/docker-soapui-testrunner
+- https://support.smartbear.com/readyapi/docs/integrations/docker/soapui.html
+- https://github.com/SmartBear/docker-soapui-testrunner
 
 We will build our own soap-ui docker image using soap-ui binaries:
 https://www.soapui.org/downloads/soapui/soapui-os-older-versions/
+
+which is strictly equivalent to the paying one, and add compose to simplify volume mapping (would work with official image too).
+
 
 ## Idea and why we do that
 
@@ -60,6 +64,8 @@ We use travis.com in beta and not org. For this allowed travis apps on all the r
 
 - Deliver docker image with non reg (remove input volume mapping)
 - We could send report by email, this is possible by tweaking dockerfile or push report to a jfrog (remove output volume mapping)
+- use empty-dir volumes or pv?
+- Have a generic base image 
 
 ## TODO
 
