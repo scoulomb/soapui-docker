@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/scoulomb/soapui-docker.svg?branch=master)](https://travis-ci.com/scoulomb/soapui-docker)
+
 # README
 
 A Soap UI docker image to run non regression in Kubernetes.
@@ -20,26 +22,33 @@ Here here is a POC where we build our own SoapUI docker image.
 docker-compose up --build
 ````
 
-This will build, map I/O volumes and run docker image with sample non regression (project-1).
-With one test passing and one test failing.
+This will build, map I/O volumes and run docker image with sample non regression (using project-2 which is successful).
 
-In this repo sample reports are committed.
+We can replace `project-2` by `project-1`. `project-1` is failing (one test passing and one test failing).
+
+
+In this repo sample reports with `project-2` are committed under `test_results/sample`
 
 ## Adaptation to your use-case
 
 Dockerfile does not need to be changed.
 Edit the `docker-compose` file line 
-`command: ["-M", "-f", "/test_results", "/project_file/REST-Project-1-soapui-project.xml"]`
+`command: ["-M", "-f", "/test_results", "/project_file/REST-Project-2-soapui-project.xml"]`
 
 To replace `REST-Project-1-soapui-project.xml` by your project file.
 
 A report will be generated in test_results (volume mapping).
 
+## Travis 
+
+Goal is to show it is possible to use docker soapui non reg to fail or not the CI/CD.
+
 ## Tips 
 
 If no enough disk space to build image, 
 Do clean-up with `docker image rm (docker images | grep "<none>" | awk '{ print $3 }' )` (at your risk)
-
+I am using https://travis-ci.com/ in beta and not https://travis-ci.org.
+File name should be `.travis.yml` (not yaml)
 
 ## What's next: Deploy in Kubernetes 
 
