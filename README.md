@@ -9,7 +9,7 @@ To be used as an alternative of SoapUI official docker image which requires Soap
 - https://support.smartbear.com/readyapi/docs/integrations/docker/soapui.html
 - https://github.com/SmartBear/docker-soapui-testrunner
 
-We will build our own soap-ui docker image using soap-ui binaries:
+We built a custom soap-ui docker image using soap-ui binaries:
 https://www.soapui.org/downloads/soapui/soapui-os-older-versions/
 
 which is strictly equivalent to the paying one, and show how to compose to simplify volume mapping (would work with official image too).
@@ -21,9 +21,6 @@ Idea is to contenairize the `SoapUI` non regression so that it can be runned as 
 It would be also possible to run the non regression as part of the continous delivery once it is dockerized (jenkins docker driver or using travis with docker or compose).
 
 We show here how to use travis for CI/CD.
-
-This is a POC.
-
 
 ## User guide
 
@@ -142,7 +139,7 @@ Note if we push directly to master (no PR), the build would faild and could to d
 
 ### TODO
 
-- Docker tag visioning and versioned delivery
+- Docker tag and versioned delivery
 
 
 <!--
