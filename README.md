@@ -2,34 +2,44 @@
 
 # README
 
-A Soap UI docker image to run non regression in Kubernetes.
-To be used as an alternative of SoapUI official docker image which requires Soap UI floating licence. 
+A Docker image to run Soap UI non-regression. 
 
-## Idea
+To be used as an alternative of SoapUI official docker image which requires Soap UI Pro floating licence:
+https://github.com/SmartBear/docker-soapui-testrunner
 
-Idea is to contenairize the `SoapUI` non regression so that it can be runned with Kubernetes cronjob.
+We will build our own soap-ui docker image using soap-ui binaries:
+https://www.soapui.org/downloads/soapui/soapui-os-older-versions/
 
-We could use SoapUI docker image: https://github.com/SmartBear/docker-soapui-testrunner
-But it requires a SoapUI floating licence and thus SoapUI pro.
+## Idea and why we do that
 
-So we will do our own !
+Idea is to contenairize the `SoapUI` non regression so that it can be runned as a Kubernetes cronjob.
+It would be also possible to run the non regression as part of the continous delivery once it is dockerized (jenkins docker driver or using travis with docker or compose).
 
-Here here is a POC where we build our own SoapUI docker image.
+We show here how to use travis for CI/CD.
 
-## Run 
+This is a POC.
+
+## Run in local
 
 ````
 docker-compose up --build
 ````
 
-This will build, map I/O volumes and run docker image with sample non regression (using project-2 which is successful).
+This will build, map I/O volumes and run docker image with sample non regression.
 
-We can replace `project-2` by `project-1`. `project-1` is failing (one test passing and one test failing).
-
+The initial setup is using `project-2` which is a successful non reg..
+We can replace `project-2` by `project-1` where `project-1` is failing (one test passing and one test failing).
 
 In this repo sample reports with `project-2` are committed under `test_results/sample`
 
-## Adaptation to your use-case
+#### Tips 
+
+If no enough disk space to build images. 
+Do clean-up with `docker image rm (docker images | grep "<none>" | awk '{ print $3 }' )` (at your risk)
+I am using https://travis-ci.com/ in beta and not https://travis-ci.org.
+File name should be `.travis.yml` (not yaml)
+
+## Adaptation to your own non-reg
 
 Dockerfile does not need to be changed.
 Edit the `docker-compose` file line 
@@ -42,13 +52,9 @@ A report will be generated in test_results (volume mapping).
 ## Travis 
 
 Goal is to show it is possible to use docker soapui non reg to fail or not the CI/CD.
+(so alternative to k8s cronjob)
 
-## Tips 
-
-If no enough disk space to build image, 
-Do clean-up with `docker image rm (docker images | grep "<none>" | awk '{ print $3 }' )` (at your risk)
-I am using https://travis-ci.com/ in beta and not https://travis-ci.org.
-File name should be `.travis.yml` (not yaml)
+We use travis.com in beta and not org. For this allowed travis apps on all the repos.
 
 ## What's next: Deploy in Kubernetes 
 
@@ -60,10 +66,3 @@ File name should be `.travis.yml` (not yaml)
 - Deliver in dockerhub
 - https://stackoverflow.com/questions/16090869/how-to-pretty-print-xml-from-the-command-line
 
-## Note
-
-- Project 1 is example of failure
-- Project 2 is example of success
-
-Binary for soap-ui were found here:
-https://www.soapui.org/downloads/soapui/soapui-os-older-versions/
