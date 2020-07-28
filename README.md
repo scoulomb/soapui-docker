@@ -52,6 +52,12 @@ docker run --privileged\
 
 ````
 
+<!--
+For pretty-print of XML: https://stackoverflow.com/questions/16090869/how-to-pretty-print-xml-from-the-command-line ()
+Do not it and dockerhub done
+Ordre lecture original c est le contributor guide avec ajout de user guide.
+-->
+
 ### Docker compose
 
 It is also possible to use compose instead, this avoid manual volume mapping:
@@ -125,15 +131,16 @@ We could have also used [docker-compose push](https://docs.docker.com/compose/re
 
 Note if we push directly to master (no PR), the build would faild and could to docker build failure on Dockerhub side.
 
-### What's next: Deploy in Kubernetes 
+### What's next: Leverage this image and deploy it in Kubernetes 
 
-- Deliver new docker image with non reg (remove input volume mapping)  at each non-reg delivery*
-- We could send report by email, this is possible by tweaking dockerfile or push report to a jfrog (remove output volume mapping)
-- use empty-dir volumes or pv?
-- *it could be possible to build a new docker image based on this image
+- we can use k8s empty-dir volume (or pv, pvc) with that image or
+- Modify this image to:
+    - Deliver new docker image with new non reg file (remove input volume mapping)  at each non-reg delivery
+    - Send report by email, or push report to a jfrog (remove output volume mapping). A side container could display report in an Apache/Nginx server.
+    - In all cases rather than creating a full new image
+    We could build a new docker image from this generic image (`FROM scoulomb/soapui-docker`) which is pushed in docker hub. 
+    And for instance replace volume mapping by `RUN COPY` etc.... I recommend this option as we would would do this way with the paying version!
 
-### TODO
-
-- Deliver in dockerhub
-- https://stackoverflow.com/questions/16090869/how-to-pretty-print-xml-from-the-command-line
-
+<!--
+ONLY TODO: compare oth proj (optional)
+-->
