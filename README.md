@@ -53,8 +53,6 @@ docker run --privileged\
 ````
 
 <!--
-For pretty-print of XML: https://stackoverflow.com/questions/16090869/how-to-pretty-print-xml-from-the-command-line ()
-Do not it and dockerhub done
 Ordre lecture original c est le contributor guide avec ajout de user guide.
 -->
 
@@ -141,6 +139,15 @@ Note if we push directly to master (no PR), the build would faild and could to d
     We could build a new docker image from this generic image (`FROM scoulomb/soapui-docker`) which is pushed in docker hub. 
     And for instance replace volume mapping by `RUN COPY` etc.... I recommend this option as we would would do this way with the paying version!
 
+
+### TODO
+
+- Docker tag visioning and versioned delivery
+
+
 <!--
-ONLY TODO: compare oth proj (optional)
+- For pretty-print of XML: https://stackoverflow.com/questions/16090869/how-to-pretty-print-xml-from-the-command-line. Do not it 
+- dockerhub done
+- ONLY TODO: compare oth proj (optional)
+- Minikube sample ?
 -->
