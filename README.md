@@ -1,6 +1,6 @@
 # README
 
-An Soap UI docker image to run non regression in Kubernetes.
+A Soap UI docker image to run non regression in Kubernetes.
 To be used as an alternative of SoapUI official docker image which requires Soap UI floating licence. 
 
 ## Idea
@@ -51,3 +51,6 @@ Do clean-up with `docker image rm (docker images | grep "<none>" | awk '{ print 
 
 - Project 1 is example of failure
 - Project 2 is example of success
+
+Binary for soap-ui were found here:
+https://www.soapui.org/downloads/soapui/soapui-os-older-versions/
