@@ -76,6 +76,16 @@ In this a sample reports with `project-2` is committed under `test_results/sampl
  `"/project_file/REST-Project-2-soapui-project.xml"`, in `docker run` or `docker-compose` file here:
  `command: ["-M", "-f", "/test_results", "/project_file/REST-Project-2-soapui-project.xml"]`
 
+
+## What's next: Leverage this image and deploy it in Kubernetes 
+
+- we can use k8s empty-dir volume (or pv, pvc) with that image or
+- Modify this image to:
+    - Deliver new docker image with new non reg file (remove input volume mapping)  at each non-reg delivery
+    - Send report by email, or push report to a jfrog (remove output volume mapping). A side container could display report in an Apache/Nginx server.
+    - In all cases rather than creating a full new image
+    We could build a new docker image from this generic image (`FROM scoulomb/soapui-docker`) which is pushed in docker hub. 
+    And for instance replace volume mapping by `RUN COPY` etc.... I recommend this option as we would would do this way with the paying version!
  
 ## Contributor guide 
 
@@ -105,7 +115,6 @@ Do clean-up with `docker image rm (docker images | grep "<none>" | awk '{ print 
 I am using https://travis-ci.com/ in beta and not https://travis-ci.org.
 File name should be `.travis.yml` (not yaml)
 
-
 ### Travis 
 
 Goal is to show it is possible to use docker soapui non reg to fail or not the CI/CD.
@@ -125,17 +134,6 @@ And not the traditional way where CI/CD is pushing to dockerhub as done here wit
 We could have also used [docker-compose push](https://docs.docker.com/compose/reference/push/).
 
 Note if we push directly to master (no PR), the build would faild and could to docker build failure on Dockerhub side.
-
-### What's next: Leverage this image and deploy it in Kubernetes 
-
-- we can use k8s empty-dir volume (or pv, pvc) with that image or
-- Modify this image to:
-    - Deliver new docker image with new non reg file (remove input volume mapping)  at each non-reg delivery
-    - Send report by email, or push report to a jfrog (remove output volume mapping). A side container could display report in an Apache/Nginx server.
-    - In all cases rather than creating a full new image
-    We could build a new docker image from this generic image (`FROM scoulomb/soapui-docker`) which is pushed in docker hub. 
-    And for instance replace volume mapping by `RUN COPY` etc.... I recommend this option as we would would do this way with the paying version!
-
 
 ### TODO
 
