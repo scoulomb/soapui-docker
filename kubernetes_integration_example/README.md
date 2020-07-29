@@ -1,4 +1,4 @@
-[Dockerhub Example](https://hub.docker.com/repository/docker/scoulomb/soapui-docker-k8s-sample).
+[Dockerhub Example](https://hub.docker.com/r/scoulomb/soapui-docker-k8s-sample).
 
 # README
 

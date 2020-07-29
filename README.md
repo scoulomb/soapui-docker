@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.com/scoulomb/soapui-docker.svg?branch=master)](https://travis-ci.com/scoulomb/soapui-docker)
 
 - [Dockerhub Base image](https://hub.docker.com/r/scoulomb/soapui-docker).
-- [Dockerhub Example](https://hub.docker.com/repository/docker/scoulomb/soapui-docker-k8s-sample).
+- [Dockerhub Example](https://hub.docker.com/r/scoulomb/soapui-docker-k8s-sample).
 
 # README
 
