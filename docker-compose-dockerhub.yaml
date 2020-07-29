@@ -5,7 +5,7 @@ services:
     # This provides to soapui test runner, the command to run 
     # "/test_results" is the folder which contains the results
     # "/project_file/REST-Project-1-soapui-project.xml" is the SoapUI input file
-    command: ["-M", "-f", "/test_results", "/project_file/REST-Project-1-soapui-project.xml"]
+    command: ["-M", "-f", "/test_results", "/project_file/REST-Project-2-soapui-project.xml"]
     volumes:
       # This folder will contain XML soapui-project input file, it maps the volume to share file between os and container
       - ./project_file:/project_file

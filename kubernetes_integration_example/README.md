@@ -1,3 +1,5 @@
+[Dockerhub Example](https://hub.docker.com/repository/docker/scoulomb/soapui-docker-k8s-sample).
+
 # README
 
 How to use `scoulomb/soapui-docker` base image to run non-regression as a cronjob in k8s.
@@ -40,6 +42,15 @@ docker run scoulomb/soapui-docker-k8s-sample
 ````
 
 ## Run it in Kubernetes
+
+### Prereq
+
+Start Minikube (or alternative)
+
+````shell script
+sudo minikube start --vm-driver=none
+alias k='sudo kubectl'
+````
 
 ### With a pod 
 

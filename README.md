@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.com/scoulomb/soapui-docker.svg?branch=master)](https://travis-ci.com/scoulomb/soapui-docker)
 
-[Dockerhub](https://hub.docker.com/r/scoulomb/soapui-docker).
+- [Dockerhub Base image](https://hub.docker.com/r/scoulomb/soapui-docker).
+- [Dockerhub Example](https://hub.docker.com/repository/docker/scoulomb/soapui-docker-k8s-sample).
+
 # README
 
 A Docker image to run Soap UI non-regression. 
@@ -123,20 +125,26 @@ https://stackoverflow.com/questions/30604846/docker-error-no-space-left-on-devic
 ````shell script
 docker rmi -f $(docker images | grep '^<none>' | awk '{print $3}')
 docker rmi -f $(docker images | grep 'soapui-docker-k8s-sample' | awk '{print $3}')
+docker system prune
 `````
 I am using https://travis-ci.com/ in beta and not https://travis-ci.org.
 File name should be `.travis.yml` (not yaml)
 
 ### Travis 
 
-Goal is to show it is possible to use docker soapui non reg to fail or not the CI/CD.
+Travis: https://travis-ci.com/github/scoulomb/soapui-docker
+At every push `docker-compose up --build non-regression` is run, to ensure build is not broken.
+
+It also shows it is possible to use docker-soapui docker image (or image built on top of it) to have non reg fail in your own CI/CD.
 (so alternative to k8s cronjob)
 
-At every push `docker-compose up --build non-regression` is runned, to ensure build is not broken.
+Note we use travis.com in beta and not org. 
 
-Note we use travis.com in beta and not org. For this allowed travis apps on all the repos.
+<!--
+For this allowed travis apps on all the repos.
+-->
 
-### Push to dockerhub
+### Docker image delivery
 
 Every time we merge to master a new docker image is delivered.
 We are using automated build: https://docs.docker.com/docker-hub/builds/.
@@ -157,5 +165,4 @@ Note if we push directly to master (no PR), the build would faild and could to d
 - dockerhub done
 - Minikube sample DONE, fluentd no and email detail and well expained in What's next: Leverage this image and deploy it in Kubernetes 
 - ONLY TODO: compare oth proj (optional), understand why denied when docker push in k8s integ example
-
 -->
