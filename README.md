@@ -51,6 +51,7 @@ docker run --privileged\
 
 <!--
 Ordre lecture original c est le contributor guide avec ajout de user guide.
+and k8s proto after linked
 -->
 
 ### Docker compose
@@ -70,7 +71,7 @@ We can replace `project-2` by `project-1` where `project-1` is failing (one test
 
 In this a sample reports with `project-2` is committed under `test_results/sample`
 
- ### Adaptation 
+### Adaptation 
  
  Copy your SoapUI XML file to `/project_file` folder, and adapt the name in command given to the docker image:
  `"/project_file/REST-Project-2-soapui-project.xml"`, in `docker run` or `docker-compose` file here:
@@ -85,7 +86,10 @@ In this a sample reports with `project-2` is committed under `test_results/sampl
     - Send report by email, or push report to a jfrog (remove output volume mapping). A side container could display report in an Apache/Nginx server.
     - In all cases rather than creating a full new image
     We could build a new docker image from this generic image (`FROM scoulomb/soapui-docker`) which is pushed in docker hub. 
-    And for instance replace volume mapping by `RUN COPY` etc.... I recommend this option as we would would do this way with the paying version!
+    And for instance replace volume mapping by `RUN COPY` or `RUN CURL $RAW_XML_FILE` etc.... I recommend this option as we would would do this way with the paying version!
+ 
+This option is prototyped in [kubernetes_integration_example](./kubernetes_integration_example/README.md).
+ 
  
 ## Contributor guide 
 
@@ -111,7 +115,15 @@ docker-compose up --build non-regression
 #### Tips 
 
 If no enough disk space to build images. 
-Do clean-up with `docker image rm (docker images | grep "<none>" | awk '{ print $3 }' )` (at your risk)
+Do clean-up with (at your risk)
+
+<!--
+https://stackoverflow.com/questions/30604846/docker-error-no-space-left-on-device
+-->
+````shell script
+docker rmi -f $(docker images | grep '^<none>' | awk '{print $3}')
+docker rmi -f $(docker images | grep 'soapui-docker-k8s-sample' | awk '{print $3}')
+`````
 I am using https://travis-ci.com/ in beta and not https://travis-ci.org.
 File name should be `.travis.yml` (not yaml)
 
@@ -143,6 +155,7 @@ Note if we push directly to master (no PR), the build would faild and could to d
 <!--
 - For pretty-print of XML: https://stackoverflow.com/questions/16090869/how-to-pretty-print-xml-from-the-command-line. Do not it 
 - dockerhub done
-- ONLY TODO: compare oth proj (optional)
-- Minikube sample ?
+- Minikube sample DONE, fluentd no and email detail and well expained in What's next: Leverage this image and deploy it in Kubernetes 
+- ONLY TODO: compare oth proj (optional), understand why denied when docker push in k8s integ example
+
 -->
