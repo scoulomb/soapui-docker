@@ -5,14 +5,17 @@ How to use `scoulomb/soapui-docker` base image to run non-regression as a cronjo
 
 ## Get to know docker image based on `scoulomb/soapui-docker`  
 
-### Build and Run locally
+We build a new image [in this folder](./Dockerfile) on top of `scoulomb/soapui-docker` image.
+It is doing a curl to get non regression XML file stored in a git repo. 
+
+### Build and Run sample image locally
 
 ````shell script
 docker build . -t soapui-docker-k8s-sample:0.0.3
 docker run -v "/home/scoulomb/dev:/test_results" soapui-docker-k8s-sample:0.0.3 
 ````
 
-### Image is built automatically on docker hub 
+### Sample image is also built automatically on docker hub 
 
 The image `soapui-docker-k8s-sample` is built automatically from this Dockerfile in dockerhub.
 https://hub.docker.com/repository/docker/scoulomb/soapui-docker-k8s-sample
