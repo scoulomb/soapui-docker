@@ -1,0 +1,61 @@
+# [0] k create cronjob nonreg-cronjob --image  scoulomb/soapui-docker-k8s-sample --schedule="* * * * *"  --dry-run -o yaml and add mail sender sidecar container
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: nonreg-cronjob
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: nonreg-cronjob
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          # [4] Non-regression side car container is actually an init container
+          # The objective is to guarantee the non-regression is always executed before report sending
+          # In the example the non-reg is short but in real situation it will not be the case
+          # Initially I wanted to use lifecylce postStart exec command: like ["/bin/sh", "-c", "sleep", "21"], or checking shared folder not empty
+          # But actually quoting the doc: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
+          # > "Kubernetes sends the postStart event immediately after the Container is created. There is no guarantee, however, that the postStart handler is called before the Container's entrypoint is called."
+          # Prestop would also not work for successful case: https://github.com/kubernetes/kubernetes/issues/55807
+          # We could have also overriden mail-sender DOCKER ENTRYPOINT (command in k8s as seen in [3]) or write an image on top of it sending the report
+          # for instance command: ["echo", "yolo"] would result in
+          # $ k logs $LAST_POD_NAME -c report-sender
+          # yolo
+          initContainers:
+          - image: scoulomb/soapui-docker-k8s-sample
+            name: nonreg-worker
+            resources: {}
+            volumeMounts:
+              - name: report-folder
+                mountPath: /test_results
+          containers:
+          - image: scoulomb/mail-sender
+            name: report-sender
+            resources: {}
+            volumeMounts:
+              - name: report-folder
+                mountPath: /test_results
+            # [2] We share the report-folder between nonreg-worker and mail sender.
+            # - Non reg worker will generate a report named test_case_run_log_report.xml (see sample) in folder /test_results
+            # - Where the empty dir volume is mounted
+            # - we mount this empty dir volume in report-sender at /test_results,
+            # this is why attachment are in [..."--files", "/test_results/test_case_run_log_report.xml"...]
+            args: ["--sender", "XXXX@gmail.com", "--recipients", "XXXX@gmail.com",  "--topic",  "non reg results",  "--body",  "Find attached the report",  "--files", "/test_results/test_case_run_log_report.xml",  "--host",  "smtp.gmail.com", "--port",  "587",  "--username",  "XXXX@gmail.com",  "--password", "XXXX"]
+            # [3] https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/
+            # It is equivalent to DOCKER CMD given here: https://github.com/scoulomb/mail-sender#sending-attachment
+            # Note difference between k8s and docker terminology:
+            # https://github.com/scoulomb/myk8s/blob/master/Master-Kubectl/1-kubectl-create-explained-ressource-derived-from-pod.md#what-is-it
+          restartPolicy: OnFailure
+          volumes:
+            # [1] https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/
+            # With volumeMounts it is equivalent to -v "toto:/toto" in docker there https://github.com/scoulomb/mail-sender#sending-attachment
+            # and https://github.com/scoulomb/soapui-docker/blob/master/README.md#docker
+            - name: report-folder
+              emptyDir: {}
+  schedule: '* * * * *'
+status: {}
+

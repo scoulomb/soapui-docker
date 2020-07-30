@@ -145,3 +145,92 @@ For report sending we could adapt this image to send email and more.
 I am not sure using fluentd logger to access report would work as job is ephemeral
 https://github.com/scoulomb/myk8s/blob/6e6de11afe4fd78b761d785ecab80de021b7814e/Volumes/fluentd-tutorial.md
 -->
+
+
+
+### Using a CronJob and send report by email
+
+This will launch launch the non-regression in an init-container sharing a volume with mail-sender which will send the report by email.
+
+Mail-sender docker image is coming from this project: 
+- https://github.com/scoulomb/mail-sender
+
+And available here in Dockerhub:
+- https://hub.docker.com/r/scoulomb/mail-sender
+
+````shell script
+bash 
+alias k='sudo kubectl'
+k delete -f cronjob_soapui_mail.yaml
+k apply -f cronjob_soapui_mail.yaml
+watch sudo kubectl get cj
+export LAST_POD_NAME=$( k get pods -o wide | grep "nonreg" |  awk '{ print $1 }' | tail -n 1)
+echo $LAST_POD_NAME
+k logs $LAST_POD_NAME -c nonreg-worker
+k logs $LAST_POD_NAME -c report-sender
+# check mail: https://mail.google.com/mail/u/1/#inbox
+k delete -f cronjob_soapui_mail.yaml
+````
+
+<details>
+  <summary>Click to expand logs output</summary>
+
+````shell script
+[vagrant@archlinux kubernetes_integration_example]$ k logs $LAST_POD_NAME -c nonreg-worker
+================================
+=
+= SOAPUI_HOME = /opt/SoapUI-5.1.2
+=
+================================
+2020-07-31 11:45:06,843 [main] WARN  com.eviware.soapui.SoapUI - Could not find jfxrt.jar. Internal browser will be disabled.
+Configuring log4j from [/opt/SoapUI-5.1.2/bin/soapui-log4j.xml]
+11:45:06,980 INFO  [DefaultSoapUICore] Creating new settings at [/opt/SoapUI-5.1.2/bin/?/soapui-settings.xml]
+SoapUI 5.1.2 TestCase Runner
+[...]
+11:45:08,156 DEBUG [SoapUIMultiThreadedHttpConnectionManager$SoapUIDefaultClientConnection] Sending request: GET / HTTP/1.1
+11:45:08,253 DEBUG [SoapUIMultiThreadedHttpConnectionManager$SoapUIDefaultClientConnection] Receiving response: HTTP/1.1 200 OK
+11:45:08,259 DEBUG [HttpClientSupport$SoapUIHttpClient] Connection can be kept alive indefinitely
+11:45:08,452 INFO  [SoapUITestCaseRunner] Assertion [Invalid HTTP Status Codes] has status VALID
+11:45:08,455 INFO  [SoapUITestCaseRunner] Finished running SoapUI testcase [TestCase 1], time taken: 308ms, status: FINISHED
+11:45:08,455 INFO  [SoapUITestCaseRunner] Project [REST Project 2] finished with status [FINISHED] in 721ms
+
+
+[vagrant@archlinux kubernetes_integration_example]$ k logs $LAST_POD_NAME -c report-sender
+robot.deploy@gmail.com
+Credential provided
+Content-Type: multipart/mixed; boundary="===============3640955436807624254=="
+MIME-Version: 1.0
+From: robot.deploy@gmail.com
+To: robot.deploy@gmail.com
+Date: Fri, 31 Jul 2020 11:45:12 +0000
+Subject: non reg results
+
+--===============3640955436807624254==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Find attached the report
+--===============3640955436807624254==
+Content-Type: application/octet-stream; Name="test_case_run_log_report.xml"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="test_case_run_log_report.xml"
+
+PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGNvbjp0ZXN0Q2FzZVJ1bkxv
+ZyB0ZXN0Q2FzZT0iVGVzdENhc2UgMSIgdGltZVRha2VuPSIzMDgiIHN0YXR1cz0iRklOSVNIRUQi
+IHRpbWVTdGFtcD0iMjAyMC0wNy0zMSAxMTo0NTowNyIgeG1sbnM6Y29uPSJodHRwOi8vZXZpd2Fy
+ZS5jb20vc29hcHVpL2NvbmZpZyI+PGNvbjp0ZXN0Q2FzZVJ1bkxvZ1Rlc3RTdGVwIG5hbWU9IlJF
+U1QgUmVxdWVzdCIgdGltZVRha2VuPSIzMDgiIHN0YXR1cz0iT0siIHRpbWVzdGFtcD0iMjAyMC0w
+Ny0zMSAxMTo0NTowOCIgZW5kcG9pbnQ9Imh0dHA6Ly93d3cuZ29vZ2xlLmZyLyIgaHR0cFN0YXR1
+cz0iMjAwIiBjb250ZW50TGVuZ3RoPSIxMjY5OCIgcmVhZFRpbWU9IjEwMSIgdG90YWxUaW1lPSIy
+ODIiIGRuc1RpbWU9IjYzIiBjb25uZWN0VGltZT0iMTA5IiB0aW1lVG9GaXJzdEJ5dGU9Ijk3IiBo
+dHRwTWV0aG9kPSJHRVQiIGlwQWRkcmVzcz0iIi8+PC9jb246dGVzdENhc2VSdW5Mb2c+
+
+--===============3640955436807624254==--
+
+sent
+
+````  
+
+</details>
