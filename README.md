@@ -21,6 +21,7 @@ which is strictly equivalent to the paying one, and show how to compose to simpl
 
 Idea is to contenairize the `SoapUI` non regression so that it can be runned as a Kubernetes cronjob.
 It would be also possible to run the non regression as part of the continous delivery once it is dockerized (jenkins docker driver or using travis with docker or compose).
+See [Tavis](#travis).
 
 We show here how to use travis for CI/CD.
 

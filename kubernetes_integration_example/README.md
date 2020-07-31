@@ -234,3 +234,48 @@ sent
 ````  
 
 </details>
+
+
+### Make a helm chart 
+
+#### Install helm 
+https://helm.sh/docs/intro/install/
+
+````shell script
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+````
+
+#### Create helm repo
+
+
+https://docs.bitnami.com/tutorials/create-your-first-helm-chart/
+
+````shell script
+helm create helm-k8s-integration
+````
+
+And adapt with already existing [CronJob](./cronjob_soapui_mail.yaml).
+
+#### Execute it
+
+````shell script
+sudo su
+alias k='kubectl'
+````
+
+We need sudo as minikube config used by Helm is attached to root.
+For explanation see [here](https://github.com/scoulomb/myk8s/blob/master/Master-Kubectl/kube-config.md).
+
+````shell script
+helm install k8s-integ ./helm-k8s-integration
+watch sudo kubectl get cj
+export LAST_POD_NAME=$( k get pods -o wide | grep "nonreg" |  awk '{ print $1 }' | tail -n 1)
+echo $LAST_POD_NAME
+k logs $LAST_POD_NAME -c nonreg-worker
+k logs $LAST_POD_NAME -c report-sender
+helm uninstall k8s-integ
+k get po
+````
+

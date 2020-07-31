@@ -1,0 +1,38 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: nonreg-cronjob
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: nonreg-cronjob
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          initContainers:
+          - image: scoulomb/soapui-docker-k8s-sample
+            name: nonreg-worker
+            resources: {}
+            volumeMounts:
+              - name: report-folder
+                mountPath: /test_results
+          containers:
+          - image: scoulomb/mail-sender
+            name: report-sender
+            resources: {}
+            volumeMounts:
+              - name: report-folder
+                mountPath: /test_results
+            args: ["--sender", "{{ .Values.args.sender }}", "--recipients", "{{ .Values.args.recipient }}",  "--topic",  "non reg results",  "--body",  "Find attached the report",  "--files", "/test_results/test_case_run_log_report.xml",  "--host",  "smtp.gmail.com", "--port",  "587",  "--username",  "{{ .Values.args.sender }}",  "--password", "{{ .Values.args.password }}"]
+
+          restartPolicy: OnFailure
+          volumes:
+            - name: report-folder
+              emptyDir: {}
+  schedule: '* * * * *'
+status: {}
+

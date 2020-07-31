@@ -1,0 +1,8 @@
+# Default values for helm_k8s_integration.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+args:
+  sender: XXXX@gmail.com
+  recipient: XXXX@gmail.com
+  password: XXXX
