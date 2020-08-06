@@ -15,3 +15,6 @@ before_install:
 script:
   - docker-compose up non-regression
   - docker-compose up cat-report
+
+after_success:
+  - docker-compose -f docker-compose-deliver-helm-chart.yaml up
