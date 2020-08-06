@@ -279,3 +279,8 @@ helm uninstall k8s-integ
 k get po
 ````
 
+#### Deliver a helm package in helmhub
+
+In CI/CD we will auto deliver this helm package in our helm hub repository.
+All the procedure is described in a dedicated repository:
+https://github.com/scoulomb/github-page-helm-deployer
