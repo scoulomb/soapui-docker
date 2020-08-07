@@ -267,6 +267,7 @@ alias k='kubectl'
 
 We need sudo as minikube config used by Helm is attached to root.
 For explanation see [here](https://github.com/scoulomb/myk8s/blob/master/Master-Kubectl/kube-config.md).
+Before update [value file](helm-k8s-integration/values.yaml).
 
 ````shell script
 helm install k8s-integ ./helm-k8s-integration
@@ -275,12 +276,77 @@ export LAST_POD_NAME=$( k get pods -o wide | grep "nonreg" |  awk '{ print $1 }'
 echo $LAST_POD_NAME
 k logs $LAST_POD_NAME -c nonreg-worker
 k logs $LAST_POD_NAME -c report-sender
+# check mail: https://mail.google.com/mail/u/1/#inbox
 helm uninstall k8s-integ
 k get po
 ````
 
-#### Deliver a helm package in helmhub
+#### Deliver and use a helm package in helmhub
 
 In CI/CD we will auto deliver this helm package in our helm hub repository.
 All the procedure is described in a dedicated repository:
 https://github.com/scoulomb/github-page-helm-deployer
+
+
+And in particular
+- travis integration in this project: https://github.com/scoulomb/github-page-helm-deployer#ci-cd-pipeline-with-travis
+- usage: https://github.com/scoulomb/github-page-helm-deployer#usage-of-helm-registry-once-helm-deliverable-are-pushed
+
+
+#### Known issues
+
+##### Space on device
+
+If report is empty, for instance when running: 
+
+```shell script
+helm install k8s-integ ./helm-k8s-integration
+```
+
+check logs
+
+````shell script
+[root@archlinux kubernetes_integration_example]# k logs $LAST_POD_NAME -c nonreg-worker | grep -C 2 "No space"
+11:02:12,164 INFO  [SoapUITestCaseRunner] Assertion [Invalid HTTP Status Codes] has status VALID
+11:02:12,168 ERROR [TestCaseRunLogReport] Could not write test_case_run_log_report.xml to disk
+11:02:12,168 ERROR [SoapUI] An error occurred [No space left on device], see error log for details
+java.io.IOException: No space left on device
+        at java.base/java.io.FileOutputStream.writeBytes(Native Method)
+        at java.base/java.io.FileOutputStream.write(FileOutputStream.java:347)
+````
+
+And same when using [helm remote repo in this readme](#Deliver-and-use-a-helm package-in-helmhub) :
+
+````shell script
+helm repo add soapui https://helm-registry.github.io/soapui 
+helm install test-helm-k8s-integration soapui/helm-k8s-integration  --set args.sender="robot.deploy@gmail.com" --set args.recipient="robot.deploy@gmail.com" --set args.password="XXXX"
+````
+
+<!--
+Seems working without prune
+-->
+
+To make some space we can clean-up docker image 
+
+<!--
+Project where we have report folder is usually shared between vm and windows so not the issue
+Note container volume sharing layer below (like port fw vm -> container)
+-->
+
+````shell script
+docker system prune
+````
+
+Once pruning is done both are working 
+
+<!--
+tested twice OK
+-->
+
+#### Helmhub or docker pull issue
+
+Flush local DNS cache
+
+````shell script
+sudo systemd-resolve --flush-caches
+````

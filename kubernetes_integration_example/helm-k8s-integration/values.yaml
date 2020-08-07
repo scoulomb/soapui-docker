@@ -3,6 +3,6 @@
 # Declare variables to be passed into your templates.
 
 args:
-  sender: XXXX@gmail.com
-  recipient: XXXX@gmail.com
-  password: XXXX
+  sender: robot.deploy@gmail.com
+  recipient: robot.deploy@gmail.com
+  password: "<your-pwd>"
