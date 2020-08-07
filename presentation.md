@@ -17,6 +17,8 @@ Seed: [dockerisation of SoapUI](./README.md).
 <!--
 - private repo contains what is private in this repo (private)
 - [kubernetes_integration_example](./kubernetes_integration_example/Dockerfile) has no user guide, it is a dev tuto)
+- Later this can also be reference from DNS (glue record to custom DNS)
+- did not use mail redirection for robot.deploy but could have
 --> 
 
 ## Presentation 
