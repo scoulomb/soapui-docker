@@ -10,16 +10,28 @@ Seed: [dockerisation of SoapUI](./README.md).
     - mail sender side container: https://github.com/scoulomb/mail-sender: A container to send report via email, using a empty dir volume as a sidecar (init container) with non reg.
     - And to helm deployer: https://github.com/scoulomb/github-page-helm-deployer: A container to deploy helm chart via Docker in CI/CD using travis
       <!--
+      Other inter-repo link
       - which is pointing to  https://github.com/scoulomb/myk8s  
-      - And to https://github.com/scoulomb/mydns 
+      - And to https://github.com/scoulomb/mydns
+       Where:
+          - https://github.com/scoulomb/myDNS/tree/master/2-advanced-bind -> https://github.com/scoulomb/myk8s  
+          - https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/0-basic-gandi-dns.md -> https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md
+          - - https://github.com/scoulomb/dev_resume -> https://scoulomb.github.io/ -> https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md 
+          - https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md <-> https://github.com/scoulomb/dns-config
+          - https://github.com/scoulomb/aws-prep  -> https://github.com/scoulomb/myPublicCloud/blob/master/AWS/4-DNS-route-53.md (2-modify-tld-ns-record.md,  5-delegate-subzone.md => glue, NS record and custom nameserver) -> https://github.com/scoulomb/myDNS/tree/master/2-advanced-bind/5-real-own-dns-application
+                                                  ->  (step 3 in aws prep) https://github.com/scoulomb/aws-sa-exo -> myIaC/myk8s
+          - https://github.com/scoulomb/myIaC -> myk8s + mydns
       -->
       
 <!--
-- private repo contains what is private in this repo (private)
+- private repo contains what is private in this repo (private) and oters
+- did not use mail redirection for robot.deploy but could have (https://github.com/scoulomb/dns-config)
 - [kubernetes_integration_example](./kubernetes_integration_example/Dockerfile) has no user guide, it is a dev tuto)
-- Later this can also be reference from DNS (glue record to custom DNS)
-- did not use mail redirection for robot.deploy but could have
 --> 
+
+<!-- Inter repo link is OK -->
+
+
 
 ## Presentation 
 
