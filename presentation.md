@@ -1,5 +1,7 @@
 # Project presentation
 
+<!-- doc st completed -->
+
 ## Projects overview
  
 Seed: [dockerisation of SoapUI](./README.md).
@@ -12,11 +14,11 @@ Seed: [dockerisation of SoapUI](./README.md).
       <!--
       Other inter-repo link
       - which is pointing to  https://github.com/scoulomb/myk8s  
-      - And to https://github.com/scoulomb/mydns
+      - And to  https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md <-> https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/0-basic-gandi-dns.md
        Where:
           - https://github.com/scoulomb/myDNS/tree/master/2-advanced-bind -> https://github.com/scoulomb/myk8s  
           - https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/0-basic-gandi-dns.md -> https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md
-          - - https://github.com/scoulomb/dev_resume -> https://scoulomb.github.io/ -> https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md 
+          - https://github.com/scoulomb/dev_resume -> https://scoulomb.github.io/ -> https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md 
           - https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md <-> https://github.com/scoulomb/dns-config
           - https://github.com/scoulomb/aws-prep  -> https://github.com/scoulomb/myPublicCloud/blob/master/AWS/4-DNS-route-53.md (2-modify-tld-ns-record.md,  5-delegate-subzone.md => glue, NS record and custom nameserver) -> https://github.com/scoulomb/myDNS/tree/master/2-advanced-bind/5-real-own-dns-application
                                                   ->  (step 3 in aws prep) https://github.com/scoulomb/aws-sa-exo -> myIaC/myk8s
@@ -31,7 +33,25 @@ Seed: [dockerisation of SoapUI](./README.md).
 
 <!-- Inter repo link is OK -->
 
+<!-- Dojo link JM
+- SoapUI docker Dojo: had stopped at mail sender
+- DNS Dojo 2: Link github page and DNS => https://github.com/scoulomb/github-page-helm-deployer/blob/master/appendix-github-page-and-dns.md
+(which is Linked to SoapUI docker (this file) and DNS https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/0-basic-gandi-dns.md)
+- DNS Dojo 1: We had review the repo until https://github.com/scoulomb/myDNS/blob/master/1-basic-bind-lxa/p2-2-configure-reverse-zone.md
+But we had questions, I completed then in Advanced bind and p1-1
+=> (link nameserver to root server, glue, ns) https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/2-modify-tld-ns-record.md
+=> (DHCP cache) https://github.com/scoulomb/myDNS/blob/master/1-basic-bind-lxa/p1-1-dns-cache.md (end of doc)
 
+So next with JM could be 
+- SoapUI docker suite (with dns overlap) from mail sender: https://github.com/scoulomb/soapui-docker/blob/master/presentation.md
+- DNS suite from p2-2 with questions from last time answered (https://github.com/scoulomb/myDNS) in particular link nameserver to root server
+
+Team SoapUI docker Demo ev left -> helm deplyment when jumps cj alone sans helm ([cf. README](./kubernetes_integration_example/README.md)) + this page in mind)
+-->
+
+<!--
+(we could have kept helm char in same repo as code but need to probably tag ok osef)
+-->
 
 ## Presentation 
 
