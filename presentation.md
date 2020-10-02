@@ -45,8 +45,8 @@ But we had questions, I completed then in Advanced bind and p1-1
 So next with JM could be 
 - SoapUI docker suite (with dns overlap) from mail sender: https://github.com/scoulomb/soapui-docker/blob/master/presentation.md
 - DNS suite from p2-2 with questions from last time answered (https://github.com/scoulomb/myDNS) in particular link nameserver to root server
-[Completed 30/09/2020]: see commit dojo feedback (glue ok only side note https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/side_note.md to do). 
-
+[Completed 30/09/2020]: see commit dojo feedback (glue ok only side note https://github.com/scoulomb/myDNS/blob/master/2-advanced-bind/5-real-own-dns-application/6-use-linux-nameserver.md to do). 
+Where this: https://github.com/scoulomb/myDNS/blob/master/3-DNS-solution-providers/1-Infoblox/3-Infoblox-namespace.md is ok
 Team SoapUI docker Demo ev left -> helm deplyment when jumps cj alone sans helm ([cf. README](./kubernetes_integration_example/README.md)) + this page in mind)
 -->
 
